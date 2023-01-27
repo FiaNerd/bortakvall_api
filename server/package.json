@@ -6,6 +6,10 @@
     "dev": "nodemon server.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
   "devDependencies": {
     "@types/node": "^18.11.18",
     "nodemon": "^2.0.20",
@@ -13,10 +17,6 @@
     "ts-node": "^10.9.1",
     "typescript": "^4.9.4"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
   "dependencies": {
     "@prisma/client": "^4.9.0",
     "@types/express": "^4.17.16",
