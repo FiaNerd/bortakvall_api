@@ -1,0 +1,13 @@
+# misc
+.DS_Store
+.vs/
+bin/
+obj/
+.env
+
+# production
+/**/build
+/**/dist
+
+# dependencies
+node_modules/
