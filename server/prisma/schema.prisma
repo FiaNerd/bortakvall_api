@@ -19,3 +19,25 @@ model Product {
   stock_status   String
   stock_quantity Int    @db.UnsignedInt
 }
+
+model Order {
+  id                  String       @id @default(uuid())
+  customer_first_name String
+  customer_last_name  String
+  customer_address    String
+  customer_postcode   String
+  customer_city       String
+  customer_email      String
+  customer_phone      String?
+  order_total         Int          @db.UnsignedInt
+  order_item          OrderItems[]
+}
+
+model OrderItems {
+  product_id String @id @default(uuid())
+  qty        Int    @db.UnsignedInt
+  item_price Int    @db.UnsignedInt
+  item_total Int    @db.UnsignedInt
+  order      Order  @relation(fields: [order_id], references: [id])
+  order_id   String
+}
