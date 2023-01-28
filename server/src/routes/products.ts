@@ -1,7 +1,8 @@
 import express from 'express'
-import { index } from '../controllers/product_controller'
+import { index, store } from '../controllers/product_controller'
 const routes = express.Router()
 
 routes.get('/', index)
+routes.post('/', store)
 
 export default routes;

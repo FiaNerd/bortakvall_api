@@ -5,7 +5,7 @@ const router = express.Router()
 
 router.get('/', (req, res) => {
     res.send({
-        message: "you are up on get route"
+        message: "Get from route /"
     })
 })
 
