@@ -6,6 +6,16 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mysql"
   url      = env("DATABASE_URL")
+}
+
+model Product {
+  id             String @id @default(uuid())
+  name           String @unique
+  description    String @db.Text
+  price          Int    @db.UnsignedInt
+  images         Json   @default("{}")
+  stock_status   String
+  stock_quantity Int    @db.UnsignedInt
 }
