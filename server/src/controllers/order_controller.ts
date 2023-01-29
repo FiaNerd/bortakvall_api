@@ -18,3 +18,26 @@ export const index = async (req: Request, res: Response) => {
         })
     }
 }
+
+// GET /orders/orderId
+export const show = async (req: Request, res: Response) => {
+    const orderId = req.params.orderId
+
+    try {
+        const getSingleOrder  = await prisma.order.findUniqueOrThrow({
+            where:{
+                id: orderId
+            }
+        }) 
+        res.status(200).send({
+            status: "succsess",
+            data: getSingleOrder,
+        })
+    } catch (err) {
+        res.status(400).send({
+            status: "fail",
+            message: "Couldn't get the order",
+            error: err,
+        })
+    }
+}
