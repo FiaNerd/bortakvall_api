@@ -1,6 +1,7 @@
 import { Request, Response } from 'express'
 import prisma from '../prisma'
 
+// GET /products
 export const index = async (req: Request, res: Response) => {
     try{
         const getProducts = await prisma.product.findMany()
@@ -18,6 +19,30 @@ export const index = async (req: Request, res: Response) => {
     }
 }
 
+//GET /products/:productId
+export const show = async (req: Request, res: Response) => {
+    const productId = req.params.productId
+
+    try {
+        const getSingleProduct = await prisma.product.findUniqueOrThrow({
+            where:{
+                id: productId
+            }
+        })
+        res.status(200).send({
+            status: "succsess",
+            data: getSingleProduct
+        })
+    } catch (err) {
+        res.status(500).send({
+            status: "fail",
+            message: "Couldn't get at single product",
+            error: err
+        })
+    }
+}
+
+// POST /products
 export const store = async (req: Request, res: Response) => {
     const reqBody = req.body
     try{
@@ -45,3 +70,4 @@ export const store = async (req: Request, res: Response) => {
         })
     }
 }
+
