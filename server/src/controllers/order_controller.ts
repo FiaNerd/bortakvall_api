@@ -19,7 +19,7 @@ export const index = async (req: Request, res: Response) => {
     }
 }
 
-// GET /orders/orderId
+// GET /orders/:orderId
 export const show = async (req: Request, res: Response) => {
     const orderId = Number(req.params.orderId)
 
@@ -27,7 +27,11 @@ export const show = async (req: Request, res: Response) => {
         const getSingleOrder  = await prisma.order.findUniqueOrThrow({
             where:{
                 id: orderId
-            }
+            },
+            include: 
+                {
+                items: true,
+            },
         }) 
         res.status(200).send({
             status: "succsess",

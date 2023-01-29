@@ -20,7 +20,7 @@ Create your own env file put your database, username, password and port number a
 place it in the server folder:
 .env 
 
-exempel: DATABASE_URL="mysql://root:root@localhost:3306/fed22_books"
+exempel: DATABASE_URL="mysql://root:root@localhost:3306/prisma_bortakvall"
 PORT=3000
 
 
