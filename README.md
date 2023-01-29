@@ -12,22 +12,24 @@ mySql
 You need to have install node.js:
 https://nodejs.org/en/
 
-And im using npm (Node Package Manager):
+I'm using npm (Node Package Manager):
 https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
 
+### Install dependencies
+npm install
+
 ### databse mySql
-Create your own env file put your database, username, password and port number and then 
+Create your own .env file, write your connection the database, username, password and port number and databas name bortkvall_api and then 
 place it in the server folder:
 .env 
 
-exempel: DATABASE_URL="mysql://root:root@localhost:3306/fed22_books"
-PORT=3000
+# Coonnection string example
+DATABASE_URL="mysql://johndoe:randompassword@localhost:3306/mydb"
 
 
 ### Run the Project
 Have to stand in the server folder and run:
 npm run dev
-
 
 
 That is it! 
