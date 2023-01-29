@@ -21,7 +21,7 @@ export const index = async (req: Request, res: Response) => {
 
 // GET /orders/orderId
 export const show = async (req: Request, res: Response) => {
-    const orderId = req.params.orderId
+    const orderId = Number(req.params.orderId)
 
     try {
         const getSingleOrder  = await prisma.order.findUniqueOrThrow({

@@ -21,7 +21,7 @@ export const index = async (req: Request, res: Response) => {
 
 //GET /products/:productId
 export const show = async (req: Request, res: Response) => {
-    const productId = req.params.productId
+    const productId = Number(req.params.productId)
 
     try {
         const getSingleProduct = await prisma.product.findUniqueOrThrow({
