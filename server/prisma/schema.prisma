@@ -8,7 +8,7 @@ datasource db {
 }
 
 model Product {
-  id             String @id @default(uuid())
+  id             Int    @id @default(autoincrement()) @db.UnsignedInt
   name           String @unique
   description    String @db.Text
   price          Int    @db.UnsignedInt
@@ -18,7 +18,7 @@ model Product {
 }
 
 model Order {
-  id                  String       @id @default(uuid())
+  id                  Int          @id @default(autoincrement()) @db.UnsignedInt
   customer_first_name String
   customer_last_name  String
   customer_address    String
@@ -27,16 +27,16 @@ model Order {
   customer_email      String
   customer_phone      String?
   order_total         Int          @db.UnsignedInt
-  order_item          OrderItems[]
+  items               OrderItems[]
 }
 
 model OrderItems {
-  product_id String @id @default(uuid())
-  qty        Int    @db.UnsignedInt
-  item_price Int    @db.UnsignedInt
-  item_total Int    @db.UnsignedInt
-  order_id   String
-  order      Order  @relation(fields: [order_id], references: [id])
+  product_id Int   @id @default(autoincrement()) @db.UnsignedInt
+  qty        Int   @db.UnsignedInt
+  item_price Int   @db.UnsignedInt
+  item_total Int   @db.UnsignedInt
+  order_id   Int   @db.UnsignedInt
+  order      Order @relation(fields: [order_id], references: [id])
 
   @@index([order_id], map: "OrderItems_order_id_fkey")
 }
