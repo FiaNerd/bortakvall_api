@@ -7,14 +7,14 @@ export const index = async (req: Request, res: Response) => {
         const getProducts = await prisma.product.findMany()
         res.status(200).send({
             status: "success",
-            data: getProducts
+            data: getProducts,
         })
     }catch(err){
         console.error(err)
         res.status(400).send({
             status: "fail",
             message: "Couldn't get the products",
-            error: err
+            error: err,
         })
     }
 }
