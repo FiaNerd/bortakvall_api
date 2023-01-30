@@ -1,5 +1,5 @@
-import { Request, Response } from "express";
-import prisma from "../prisma"
+import { Request, Response } from 'express'
+import prisma from '../prisma'
 
 
 // GET /order
@@ -19,7 +19,7 @@ export const index = async (req: Request, res: Response) => {
     }
 }
 
-// GET /orders/orderId
+// GET /orders/:orderId
 export const show = async (req: Request, res: Response) => {
     const orderId = Number(req.params.orderId)
 
@@ -27,7 +27,11 @@ export const show = async (req: Request, res: Response) => {
         const getSingleOrder  = await prisma.order.findUniqueOrThrow({
             where:{
                 id: orderId
-            }
+            },
+            include: 
+                {
+                items: true,
+            },
         }) 
         res.status(200).send({
             status: "succsess",
@@ -42,31 +46,61 @@ export const show = async (req: Request, res: Response) => {
     }
 }
 
-export const store = async (req: Request, res: Response) => {
-    const reqBody = req.body
 
+
+// POST /orders
+export const store = async (req: Request, res: Response) => {
+    const reqBody = req.body;
+
+    interface OrderItem {
+        qty: number;
+        item_price: number;
+        item_total: number;
+        product_id: number;
+      }
+  
     try {
         const postOrders = await prisma.order.create({
             data: {
-                customer_first_name: reqBody.customer_first_name,
-                customer_last_name : reqBody.customer_last_name, 
-                customer_address   : reqBody.customer_address, 
-                customer_postcode  : reqBody.customer_postcode, 
-                customer_city      : reqBody.customer_city, 
-                customer_email     : reqBody.customer_email, 
-                customer_phone     : reqBody.customer_phone, 
-                order_total        : reqBody.order_total,
-            }
-        })
-        res.status(201).send({
-            status: "succsess",
-            data: postOrders
-        })
+            customer_first_name: reqBody.customer_first_name,
+            customer_last_name: reqBody.customer_last_name,
+            customer_address: reqBody.customer_address,
+            customer_postcode: reqBody.customer_postcode,
+            customer_city: reqBody.customer_city,
+            customer_email: reqBody.customer_email,
+            customer_phone: reqBody.customer_phone,
+            order_total: reqBody.order_total,
+            items: {
+            create: reqBody.order_items.map((item: OrderItem) => ({
+            qty: item.qty,
+            item_price: item.item_price,
+            item_total: item.item_total,
+            product: {
+            connect: {
+            id: item.product_id,
+            },
+            },
+            }),
+            ),
+            },
+            },
+            include: {
+            items: true,
+            },
+            });
+          
+console.log(postOrders);
+      res.status(201).send({
+        status: "success",
+        data: postOrders,
+      });
     } catch (err) {
-        res.status(400).send({
-            status: "fail",
-            message: "Couldn't make a post to oders",
-            error: err,
-        })
+        console.log(err);
+      res.status(400).send({
+        status: "fail",
+        message: "Couldn't make a post to orders",
+        error: err,
+      });
     }
-}
+  };
+  

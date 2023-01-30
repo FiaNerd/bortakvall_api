@@ -1,42 +1,46 @@
 generator client {
-  provider = "prisma-client-js"
+    provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
+    provider = "mysql"
+    url      = env("DATABASE_URL")
 }
 
 model Product {
-  id             Int    @id @default(autoincrement()) @db.UnsignedInt
-  name           String @unique
-  description    String @db.Text
-  price          Int    @db.UnsignedInt
-  images         Json
-  stock_status   String
-  stock_quantity Int    @db.UnsignedInt
+    id             Int          @id @default(autoincrement()) @db.UnsignedInt
+    name           String       @unique
+    description    String       @db.Text
+    price          Int          @db.UnsignedInt
+    images         Json
+    stock_status   String
+    stock_quantity Int          @db.UnsignedInt
+    order_items    OrderItems[]
 }
 
 model Order {
-  id                  Int          @id @default(autoincrement()) @db.UnsignedInt
-  customer_first_name String
-  customer_last_name  String
-  customer_address    String
-  customer_postcode   String
-  customer_city       String
-  customer_email      String
-  customer_phone      String?
-  order_total         Int          @db.UnsignedInt
-  items               OrderItems[]
+    id                  Int          @id @default(autoincrement()) @db.UnsignedInt
+    customer_first_name String
+    customer_last_name  String
+    customer_address    String
+    customer_postcode   String
+    customer_city       String
+    customer_email      String
+    customer_phone      String?
+    order_total         Int          @db.UnsignedInt
+    items               OrderItems[]
 }
 
 model OrderItems {
-  product_id Int   @id @default(autoincrement()) @db.UnsignedInt
-  qty        Int   @db.UnsignedInt
-  item_price Int   @db.UnsignedInt
-  item_total Int   @db.UnsignedInt
-  order_id   Int   @db.UnsignedInt
-  order      Order @relation(fields: [order_id], references: [id])
+    id         Int     @id @default(autoincrement()) @db.UnsignedInt
+    product_id Int     @db.UnsignedInt
+    qty        Int     @db.UnsignedInt
+    item_price Int     @db.UnsignedInt
+    item_total Int     @db.UnsignedInt
+    order_id   Int     @db.UnsignedInt
+    product    Product @relation(fields: [product_id], references: [id])
+    order      Order   @relation(fields: [order_id], references: [id])
 
-  @@index([order_id], map: "OrderItems_order_id_fkey")
+    @@index([order_id], map: "OrderItems_order_id_fkey")
+    @@index([product_id], map: "OrderItems_product_id_fkey")
 }

@@ -23,8 +23,9 @@ Create your own .env file, write your connection the database, username, passwor
 place it in the server folder:
 .env 
 
+
 # Coonnection string example
-DATABASE_URL="mysql://johndoe:randompassword@localhost:3306/mydb"
+DATABASE_URL="mysql://johndoe:randompassword@localhost:3306/prisma_bortakvall"
 
 
 ### Run the Project
