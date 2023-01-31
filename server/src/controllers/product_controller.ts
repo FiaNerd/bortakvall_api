@@ -14,7 +14,7 @@ export const index = async (req: Request, res: Response) => {
         console.error(err)
         res.status(500).send({
             status: "fail",
-            message: "Internal server eroro: Couldn't get the products",
+            message: "Internal serverCouldn't get the products",
             error: err,
         })
     }
@@ -50,7 +50,7 @@ export const store = async (req: Request, res: Response) => {
     const validationErrors = validationResult(req)
     if (!validationErrors.isEmpty()) {
 		return res.status(400).send({
-			status: "error",
+			status: "fail",
 			data: validationErrors.array(),
 		})
 	}
