@@ -47,7 +47,6 @@ export const show = async (req: Request, res: Response) => {
 }
 
 
-
 // POST /orders
 export const store = async (req: Request, res: Response) => {
     const reqBody = req.body;
@@ -62,31 +61,31 @@ export const store = async (req: Request, res: Response) => {
     try {
         const postOrders = await prisma.order.create({
             data: {
-            customer_first_name: reqBody.customer_first_name,
-            customer_last_name: reqBody.customer_last_name,
-            customer_address: reqBody.customer_address,
-            customer_postcode: reqBody.customer_postcode,
-            customer_city: reqBody.customer_city,
-            customer_email: reqBody.customer_email,
-            customer_phone: reqBody.customer_phone,
-            order_total: reqBody.order_total,
+                customer_first_name: reqBody.customer_first_name,
+                customer_last_name: reqBody.customer_last_name,
+                customer_address: reqBody.customer_address,
+                customer_postcode: reqBody.customer_postcode,
+                customer_city: reqBody.customer_city,
+                customer_email: reqBody.customer_email,
+                customer_phone: reqBody.customer_phone,
+                order_total: reqBody.order_total,
             items: {
-            create: reqBody.order_items.map((item: OrderItem) => ({
-            qty: item.qty,
-            item_price: item.item_price,
-            item_total: item.item_total,
+                create: reqBody.order_items.map((item: OrderItem) => ({
+                qty: item.qty,
+                item_price: item.item_price,
+                item_total: item.item_total,
             product: {
-            connect: {
-            id: item.product_id,
-            },
-            },
+                connect: {
+                id: item.product_id,
+                },
+             },
             }),
-            ),
-            },
-            },
+         ),
+        },
+    },
             include: {
-            items: true,
-            },
+                items: true,
+                },
             });
           
 console.log(postOrders);

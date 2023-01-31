@@ -1,4 +1,5 @@
 import { Request, Response } from 'express'
+import { validationResult } from 'express-validator'
 import prisma from '../prisma'
 
 // GET /products
@@ -11,9 +12,9 @@ export const index = async (req: Request, res: Response) => {
         })
     }catch(err){
         console.error(err)
-        res.status(400).send({
+        res.status(500).send({
             status: "fail",
-            message: "Couldn't get the products",
+            message: "Internal server eroro: Couldn't get the products",
             error: err,
         })
     }
@@ -45,6 +46,15 @@ export const show = async (req: Request, res: Response) => {
 // POST /products
 export const store = async (req: Request, res: Response) => {
     const reqBody = req.body
+    
+    const validationErrors = validationResult(req)
+    if (!validationErrors.isEmpty()) {
+		return res.status(400).send({
+			status: "error",
+			data: validationErrors.array(),
+		})
+	}
+
     try{
         const postProduct = await prisma.product.create({
             data: {
@@ -64,8 +74,8 @@ export const store = async (req: Request, res: Response) => {
     }catch(err){
         console.error(err)
         res.status(500).send({
-            status: "fail",
-            message: "Couldn't get the products",
+            status: "error",
+            message: "Internal server errro. Couldn't post the products",
             error: err
         })
     }
