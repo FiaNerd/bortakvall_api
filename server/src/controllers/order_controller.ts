@@ -1,4 +1,5 @@
 import { Request, Response } from 'express'
+import { validationResult } from 'express-validator'
 import prisma from '../prisma'
 
 
@@ -50,6 +51,14 @@ export const show = async (req: Request, res: Response) => {
 // POST /orders
 export const store = async (req: Request, res: Response) => {
     const reqBody = req.body;
+
+    const validationErrors = validationResult(req)
+    if (!validationErrors.isEmpty()) {
+		return res.status(400).send({
+			status: "fail",
+			data: validationErrors.array(),
+		})
+	}
 
     interface OrderItem {
         qty: number;
