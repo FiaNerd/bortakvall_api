@@ -8,7 +8,14 @@ export const createOrderValidationRules = [
 
     body('customer_address').isString().withMessage("Address has to be a string").bail(), 
 
-    body('customer_postcode').isString().withMessage("Postcode has to be a string").isLength({min:0, max:6}).withMessage("Postcode must be between 0 and 6 characters"),
+    body('customer_postcode')
+  .isString()
+  .withMessage("Postcode has to be a string")
+  .isLength({ min: 6, max: 6 })
+    .withMessage('Postcode must be between 6 characters').bail()
+  .matches(/^[0-9]+$/)
+     .withMessage("Postcode must contain only numbers").bail(),
+
     
     body('customer_city').isString().withMessage("City has to be a string").bail(), 
 
@@ -27,8 +34,10 @@ export const orderItemsValidation = [
  .isLength({ min: 1 }).withMessage('Product id must be at least one integer is requeired').bail(), 
 
  body('order_items.*.qty').exists().isInt().withMessage("Item quantity has to be a positive integer").bail().isLength({min: 1}).withMessage("At least one number is required").bail(), 
- 
- body('order_items.*.item_price').isInt().withMessage("Item Price has to be a integer").bail().isLength({min: 1}).withMessage("At least one number is required").bail(), 
+
+ body('order_items.*.item_price')
+ .isInt().withMessage("Item Price has to be a integer").bail()
+ .isLength({min: 1}).withMessage("At least one number is required").bail(), 
   
  body('order_items.*.item_total').isInt().withMessage("Item Total has to be a integer").bail().isLength({min: 1}).withMessage("At least one number is required").bail()
 
