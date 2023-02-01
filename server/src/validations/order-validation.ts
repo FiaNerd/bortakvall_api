@@ -31,26 +31,38 @@ export const createOrderValidationRules = [
   .matches(/^((\+46)|0)\d{7,14}$/)
     .withMessage("Phone number must be a valid Swedish phone number format").bail(),
 
-
-   body('order_total').isNumeric().withMessage("Total order to be a integer").bail().isLength({min: 1}).withMessage("At least one number is required").bail(), 
-
+   body('order_total')
+    .isNumeric()
+    .withMessage("Order total has to be a positive integer").bail()
+    .matches(/^[0-9]+$/)
+    .withMessage("Order total has to be a valid number").bail()
+    .isInt({min: 1})
+    .withMessage("Item total is minimum 1 kr in total").bail()
 ]
 
 
 export const orderItemsValidation = [
+    
  body('order_items.*.product_id')
- .isInt().withMessage('Product id must be a positive integer').bail()
+ .isNumeric().withMessage("Product ID has to be a positive integer").bail()
+ .isInt({min: 1})
+ .withMessage("Product ID has to be at minimum 1 integer").bail(), 
 
- .isLength({ min: 1 }).withMessage('Product id must be at least one integer is requeired').bail(), 
-
- body('order_items.*.qty').exists().isInt().withMessage("Item quantity has to be a positive integer").bail().isLength({min: 1}).withMessage("At least one number is required").bail(), 
+ body('order_items.*.qty')
+ .isNumeric().withMessage("Item quantity has to be a positive integer").bail()
+ .isInt({min: 1})
+ .withMessage("Item quantity has to be minimum 1 quantity").bail(), 
 
  body('order_items.*.item_price')
- .isInt().withMessage("Item Price has to be a integer").bail()
- .isLength({min: 1}).withMessage("At least one number is required").bail(), 
+ .isNumeric().withMessage("Item price has to be a positive integer").bail()
+ .isInt({min: 1})
+ .withMessage("Item price is minimum 1 kr").bail(), 
   
- body('order_items.*.item_total').isInt().withMessage("Item Total has to be a integer").bail().isLength({min: 1}).withMessage("At least one number is required").bail()
-
+ body('order_items.*.item_total')
+ .isNumeric()
+ .withMessage("Item quantity has to be a positive integer").bail()
+ .isInt({min: 1})
+ .withMessage("Item total is minimum 1 kr in total").bail(), 
 ]
 
 
