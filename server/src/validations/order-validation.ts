@@ -1,6 +1,6 @@
 import { body } from 'express-validator'
 
-export const createOrderValidationRules = [
+export const orderValidationRules = [
 
     body('customer_first_name').isString().withMessage('First name has to be a string').bail().isLength({min: 2}).withMessage("Has to be at least 3 characters").bail(),
 
@@ -41,7 +41,7 @@ export const createOrderValidationRules = [
 ]
 
 
-export const orderItemsValidation = [
+export const orderItemsValidationRules = [
     
  body('order_items.*.product_id')
  .isNumeric().withMessage("Product ID has to be a positive integer").bail()
@@ -49,12 +49,14 @@ export const orderItemsValidation = [
  .withMessage("Product ID has to be at minimum 1 integer").bail(), 
 
  body('order_items.*.qty')
- .isNumeric().withMessage("Item quantity has to be a positive integer").bail()
+ .isNumeric()
+ .withMessage("Item quantity has to be a positive integer").bail()
  .isInt({min: 1})
  .withMessage("Item quantity has to be minimum 1 quantity").bail(), 
 
  body('order_items.*.item_price')
- .isNumeric().withMessage("Item price has to be a positive integer").bail()
+ .isNumeric()
+ .withMessage("Item price has to be a positive integer").bail()
  .isInt({min: 1})
  .withMessage("Item price is minimum 1 kr").bail(), 
   

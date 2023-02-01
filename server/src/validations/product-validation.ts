@@ -1,13 +1,19 @@
 import { body } from 'express-validator'
 
-export const createProductValidationRules = [
- // TODO see if you can do a validation if it the same as the databse when it's unique
+export const productValidationRules = [
+
     body('name').isString().withMessage('Name has to be a string').bail().isLength({min: 3}).withMessage("Name has to be at least 3 characters"),
 
     body('description').isString().withMessage("Description has to be a string").bail().isLength({ min: 10, max: 500 })
     .withMessage('Description must be between 10 and 500 characters').bail(),
 
-    body('price').isNumeric().withMessage("Price to be a integer").bail().isLength({ min: 1 }).withMessage("At least one number is required").bail(),
+    body('price')
+    .isNumeric()
+    .withMessage("Price has to be a positive integer").bail()
+    .matches(/^[0-9]+$/)
+    .withMessage("Price has to be a valid number").bail()
+    .isInt({min: 1})
+    .withMessage("Price has to be at minimum 1 integer").bail(), 
 
     body('images').custom((image, {req}) => {
         if (!image.thumbnail) {
@@ -20,7 +26,14 @@ export const createProductValidationRules = [
         return true
       }).bail(),
 
-      body('stock_status').isString().withMessage("Stock status has to be a string").bail(),
+      body('stock_status')
+      .isString()
+      .withMessage("Stock status has to be a string").bail(),
 
-      body('stock_quantity').isNumeric().withMessage("Stock quantity has to be a integer").bail(),
+      body('stock_quantity')
+      .isNumeric().withMessage("Stock quantity has to be a positive integer").bail()
+      .isInt({min: 0})
+      .withMessage("Stock quantity has to be at minimum 0 integer").bail()
+      .matches(/^[0-9]+$/)
+      .withMessage("Stock quantity has to be a valid number").bail(), 
 ]
