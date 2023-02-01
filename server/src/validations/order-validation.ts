@@ -21,7 +21,7 @@ export const createOrderValidationRules = [
 
     body('customer_email').isEmail().withMessage("Not a valid email").bail(), 
 
-    body('customer_phone')
+    body('customer_phone').optional().bail()
   .isString()
   .withMessage("Phone number has to be a string").bail()
   .isLength({ min: 7, max: 14 })
