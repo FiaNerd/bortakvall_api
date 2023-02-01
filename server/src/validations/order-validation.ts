@@ -20,7 +20,19 @@ export const createOrderValidationRules = [
 
 ]
 
+export const orderItemsValidation = [
+ body('order_items.*.product_id')
+ .isInt().withMessage('Product id must be a positive integer').bail()
 
+ .isLength({ min: 1 }).withMessage('Product id must be at least one integer is requeired').bail(), 
+
+ body('order_items.*.qty').exists().isInt().withMessage("Item quantity has to be a positive integer").bail().isLength({min: 1}).withMessage("At least one number is required").bail(), 
+ 
+ body('order_items.*.item_price').isInt().withMessage("Item Price has to be a integer").bail().isLength({min: 1}).withMessage("At least one number is required").bail(), 
+  
+ body('order_items.*.item_total').isInt().withMessage("Item Total has to be a integer").bail().isLength({min: 1}).withMessage("At least one number is required").bail()
+
+]
 
 
 
