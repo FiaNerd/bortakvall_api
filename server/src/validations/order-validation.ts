@@ -21,11 +21,21 @@ export const createOrderValidationRules = [
 
     body('customer_email').isEmail().withMessage("Not a valid email").bail(), 
 
-    body('customer_phone').isString().withMessage("Phone number has to be a string").bail(),
+    body('customer_phone')
+  .isString()
+  .withMessage("Phone number has to be a string").bail()
+  .isLength({ min: 7, max: 14 })
+    .withMessage('Phone number must be between 7 and 14 characters')
+  .matches(/^[0-9\+\(\)\-\s]+$/)
+    .withMessage("Phone number can only contain numbers, '+', '(', ')', '-' and spaces").bail()
+  .matches(/^((\+46)|0)\d{7,14}$/)
+    .withMessage("Phone number must be a valid Swedish phone number format").bail(),
+
 
    body('order_total').isNumeric().withMessage("Total order to be a integer").bail().isLength({min: 1}).withMessage("At least one number is required").bail(), 
 
 ]
+
 
 export const orderItemsValidation = [
  body('order_items.*.product_id')
