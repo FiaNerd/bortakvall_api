@@ -10,9 +10,9 @@ datasource db {
 model Product {
     id             Int          @id @default(autoincrement()) @db.UnsignedInt
     name           String       @unique
-    description    String       @db.Text //TODO make it unique
+    description    String       @db.Text
     price          Int          @db.UnsignedInt
-    images         Json //TODO make it unique
+    images         Json
     stock_status   String
     stock_quantity Int          @db.UnsignedInt
     order_items    OrderItems[]
