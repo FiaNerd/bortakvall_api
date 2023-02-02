@@ -4,32 +4,40 @@ export const orderValidationRules = [
 
     body('customer_first_name').isString().withMessage('First name has to be a string').bail().isLength({min: 2}).withMessage("Has to be at least 3 characters").bail(),
 
-    body('customer_last_name').isString().withMessage("Last name has to be a string").bail().isLength({min: 3}).bail(),
+    body('customer_last_name')
+    .isString().withMessage("Last name has to be a string").bail().isLength({min: 3})
+    .bail(),
 
     body('customer_address').isString().withMessage("Address has to be a string").bail(), 
 
     body('customer_postcode')
-  .isString()
-  .withMessage("Postcode has to be a string")
-  .isLength({ min: 6, max: 6 })
+    .isString()
+    .withMessage("Postcode has to be a string")
+    .isLength({ min: 5, max: 6 })
     .withMessage('Postcode must be between 6 characters').bail()
-  .matches(/^[0-9]+$/)
+    .matches(/^[0-9]+$/)
      .withMessage("Postcode must contain only numbers").bail(),
 
     
     body('customer_city').isString().withMessage("City has to be a string").bail(), 
 
-    body('customer_email').isEmail().withMessage("Not a valid email").bail(), 
+    body('customer_email').isEmail()
+    .withMessage("Not a valid email")
+    .bail(), 
 
-    body('customer_phone').optional().bail()
-  .isString()
-  .withMessage("Phone number has to be a string").bail()
-  .isLength({ min: 7, max: 14 })
-    .withMessage('Phone number must be between 7 and 14 characters')
-  .matches(/^[0-9\+\(\)\-\s]+$/)
-    .withMessage("Phone number can only contain numbers, '+', '(', ')', '-' and spaces").bail()
-  .matches(/^((\+46)|0)\d{7,14}$/)
-    .withMessage("Phone number must be a valid Swedish phone number format").bail(),
+    
+    body('customer_phone')
+        .optional()
+         .custom((value, { req }) => {
+    if (value && (typeof value !== 'string' || !/^[0-9\+\(\)\-\s]+$/.test(value))) {
+        throw new Error("Phone number must be a string containing only numbers, '+', '(', ')', '-' and spaces");
+        }
+   if (value && (value.length < 7 || value.length > 14 || !/^((\+46)|0)\d{7,14}$/.test(value))) {
+        throw new Error("Phone number must be between 7 and 14 characters and must be a valid Swedish phone number format");
+    }
+    return true;
+  }),
+
 
    body('order_total')
     .isNumeric()

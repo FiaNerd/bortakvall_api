@@ -15,7 +15,7 @@ export const productValidationRules = [
     .isInt({min: 1})
     .withMessage("Price has to be at minimum 1 integer").bail(), 
 
-    body('images').custom((image, {req}) => {
+    body('images').isJSON().custom((image, {req}) => {
         if (!image.thumbnail) {
           throw new Error("'thumbnail' images are required")
         }
