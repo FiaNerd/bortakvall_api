@@ -4,10 +4,24 @@ const debug = Debug('prisma-bortakvall: product-controller')
 
 export const orderValidationRules = [
 
-    body('customer_first_name').isString().withMessage('First name has to be a string').bail().isLength({min: 2}).withMessage("Has to be at least 3 characters").bail(),
+    body('customer_first_name')
+    .isString()
+    .withMessage('First name has to be a string')
+    .bail()
+    .isAlpha()
+    .withMessage("Only letters, no numbers")
+    .bail().isLength({min: 2})
+    .withMessage("Has to be at least 3 characters")
+    .bail(),
 
     body('customer_last_name')
-    .isString().withMessage("Last name has to be a string").bail().isLength({min: 3})
+    .isString()
+    .withMessage("Last name has to be a string")
+    .bail()
+    .isAlpha()
+    .withMessage("Only letters, no numbers")
+    .bail()
+    .isLength({min: 3})
     .bail(),
 
     body('customer_address').isString().withMessage("Address has to be a string").bail(), 
@@ -24,7 +38,12 @@ export const orderValidationRules = [
      .withMessage("Postcode must contain only numbers").bail(),
 
     
-    body('customer_city').isString().withMessage("City has to be a string").bail(), 
+    body('customer_city')
+    .isString().withMessage("City has to be a string")
+    .bail()
+    .isAlpha()
+    .withMessage("Only letters, no numbers")
+    .bail(), 
 
     body('customer_email').isEmail()
     .withMessage("Not a valid email")

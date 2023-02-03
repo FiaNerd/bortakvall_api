@@ -2,7 +2,8 @@ import { body, check } from 'express-validator'
 
 export const productValidationRules = [
 
-    body('name').isString()
+    body('name')
+    .isString()
     .withMessage('Name has to be a string')
     .bail()
     .isLength({min: 3})
