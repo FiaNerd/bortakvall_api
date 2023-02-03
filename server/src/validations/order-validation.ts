@@ -8,23 +8,32 @@ export const orderValidationRules = [
     .isString()
     .withMessage('First name has to be a string')
     .bail()
-    .isAlpha()
-    .withMessage("Only letters, no numbers")
-    .bail().isLength({min: 2})
-    .withMessage("Has to be at least 3 characters")
+    .matches(/^[a-zA-Z\-]+$/)
+    .withMessage("Only letters and hyphans")
+    .bail()
+    .isLength({min: 2})
+    .withMessage("Has to be at least 2 characters")
     .bail(),
 
     body('customer_last_name')
     .isString()
     .withMessage("Last name has to be a string")
     .bail()
-    .isAlpha()
-    .withMessage("Only letters, no numbers")
+    .matches(/^[a-zA-Z\-]+$/)
+    .withMessage("Only letters and hyphans")
     .bail()
     .isLength({min: 3})
+    .withMessage("Has to be at least 3 characters")
     .bail(),
 
-    body('customer_address').isString().withMessage("Address has to be a string").bail(), 
+    body('customer_address')
+    .isString()
+    .withMessage("Address has to be a string")
+    .bail()
+    .isLength({min: 3})
+    .withMessage("Has to be at least 3 characters")
+    .bail()
+    .bail(), 
 
     body('customer_postcode')
     .trim()
@@ -33,19 +42,26 @@ export const orderValidationRules = [
     .withMessage("Postcode has to be a string")
     // .isPostalCode("SE")
     .isLength({ min: 5, max: 6 })
-    .withMessage('Postcode must be between 6 characters').bail()
+    .withMessage('Postcode must be between 6 characters')
+    .bail()
     .matches(/^[0-9]+$/)
-     .withMessage("Postcode must contain only numbers").bail(),
+     .withMessage("Postcode must contain only numbers")
+     .bail(),
 
     
     body('customer_city')
-    .isString().withMessage("City has to be a string")
+    .isString()
+    .withMessage("City has to be a string")
     .bail()
-    .isAlpha()
-    .withMessage("Only letters, no numbers")
+    .matches(/^[a-zA-Z\-]+$/)
+    .withMessage("Only letters and hyphans")
+    .bail()
+    .isLength({min: 3})
+    .withMessage("Has to be at least 3 characters")
     .bail(), 
 
-    body('customer_email').isEmail()
+    body('customer_email')
+    .isEmail()
     .withMessage("Not a valid email")
     .bail(),
 
@@ -65,11 +81,14 @@ export const orderValidationRules = [
 
    body('order_total')
     .isNumeric()
-    .withMessage("Order total has to be a positive integer").bail()
+    .withMessage("Order total has to be valid number, only positive integer")
+    .bail()
     .matches(/^[0-9]+$/)
-    .withMessage("Order total has to be a valid number").bail()
+    .withMessage("Order total required positive integer")
+    .bail()
     .isInt({min: 1})
-    .withMessage("Item total is minimum 1 kr in total").bail()
+    .withMessage("Item total is minimum 1 kr in total")
+    .bail()
 ]
 
 
@@ -77,6 +96,9 @@ export const orderItemsValidationRules = [
     
  body('order_items.*.product_id')
  .isNumeric().withMessage("Product ID has to be a positive integer").bail()
+ .matches(/^[0-9]+$/)
+  .withMessage("Order items required positive integer")
+  .bail()
  .isInt({min: 1})
  .withMessage("Product ID has to be at minimum 1 integer").bail(), 
 
