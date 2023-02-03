@@ -76,7 +76,7 @@ export const store = async (req: Request, res: Response) => {
                 customer_postcode: reqBody.customer_postcode,
                 customer_city: reqBody.customer_city,
                 customer_email: reqBody.customer_email,
-                customer_phone: reqBody.customer_phone || null,
+                customer_phone: reqBody.customer_phone,
                 order_total: reqBody.order_total,
             items: {
                 create: reqBody.order_items.map((item: OrderItem) => ({
@@ -87,9 +87,9 @@ export const store = async (req: Request, res: Response) => {
                 connect: {
                 id: item.product_id,
                 },
-             },
+               },
             }),
-         ),
+            ),
         },
     },
             include: {

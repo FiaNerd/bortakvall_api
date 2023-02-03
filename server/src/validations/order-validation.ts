@@ -1,4 +1,6 @@
 import { body } from 'express-validator'
+import Debug from 'debug'
+const debug = Debug('prisma-bortakvall: product-controller')
 
 export const orderValidationRules = [
 
@@ -11,8 +13,11 @@ export const orderValidationRules = [
     body('customer_address').isString().withMessage("Address has to be a string").bail(), 
 
     body('customer_postcode')
+    .trim()
+    .replace(/\s/g, '')
     .isString()
     .withMessage("Postcode has to be a string")
+    // .isPostalCode("SE")
     .isLength({ min: 5, max: 6 })
     .withMessage('Postcode must be between 6 characters').bail()
     .matches(/^[0-9]+$/)
@@ -23,14 +28,14 @@ export const orderValidationRules = [
 
     body('customer_email').isEmail()
     .withMessage("Not a valid email")
-    .bail(), 
+    .bail(),
 
     
     body('customer_phone')
         .optional()
          .custom((value, { req }) => {
     if (value && (typeof value !== 'string' || !/^[0-9\+\(\)\-\s]+$/.test(value))) {
-        throw new Error("Phone number must be a string containing only numbers, '+', '(', ')', '-' and spaces");
+        throw new Error("Phone number must be a string containing only numbers");
         }
    if (value && (value.length < 7 || value.length > 14 || !/^((\+46)|0)\d{7,14}$/.test(value))) {
         throw new Error("Phone number must be between 7 and 14 characters and must be a valid Swedish phone number format");

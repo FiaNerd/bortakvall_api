@@ -2,8 +2,12 @@ import { Request, Response } from 'express'
 import { validationResult } from 'express-validator'
 import prisma from '../prisma'
 
+import Debug from 'debug'
+const debug = Debug('prisma_bortakvall:product_controller')
+
 // GET /products
 export const index = async (req: Request, res: Response) => {
+    
     try{
         const getProducts = await prisma.product.findMany()
         res.status(200).send({
@@ -11,7 +15,6 @@ export const index = async (req: Request, res: Response) => {
             data: getProducts,
         })
     }catch(err){
-        console.error(err)
         res.status(500).send({
             status: "fail",
             message: "Internal serverCouldn't get the products",
@@ -66,18 +69,18 @@ export const store = async (req: Request, res: Response) => {
                 stock_quantity: reqBody.stock_quantity 
             }
         })
+        debug("postProduct:", postProduct)
 
         res.status(201).send({
             status: "succsess",
             data: postProduct
         })
     }catch(err){
-        console.error(err)
+        debug("Error thrown pn product %o: %o", req.body)
         res.status(500).send({
             status: "error",
-            message: "Internal server errro. Couldn't post the products",
+            message: "Internal server error. Couldn't post the products",
             error: err
         })
     }
 }
-
