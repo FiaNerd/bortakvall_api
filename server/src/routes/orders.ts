@@ -7,6 +7,6 @@ const routes = express.Router()
 routes.get("/", index)
 routes.get("/:orderId", show)
 
-    routes.post("/",orderValidationRules,orderItemsValidationRules, store)
+    routes.post("/", orderValidationRules,orderItemsValidationRules, store)
 
 export default routes

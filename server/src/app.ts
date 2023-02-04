@@ -9,6 +9,12 @@ app.use(cors())
 app.use(express.json())
 app.use(morgan('dev'))
 
-app.use(routes)
+app.use( routes,(req, res) => {
+    res.status(404).send({
+      status: "fail",
+      message: "Route not found, check the adress and try again"
+    })
+  });
+  
 
 export default app
