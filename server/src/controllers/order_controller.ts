@@ -1,6 +1,7 @@
 import { Request, Response } from 'express'
 import { validationResult } from 'express-validator'
 import prisma from '../prisma'
+import { OrderItem } from '../interfaces/interface_OrderItem'
 
 
 // GET /order
@@ -60,13 +61,6 @@ export const store = async (req: Request, res: Response) => {
 		})
 	}
 
-    interface OrderItem {
-        qty: number;
-        item_price: number;
-        item_total: number;
-        product_id: number;
-      }
-  
     try {
         const postOrders = await prisma.order.create({
             data: {
