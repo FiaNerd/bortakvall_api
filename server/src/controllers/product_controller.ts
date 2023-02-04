@@ -38,6 +38,8 @@ export const show = async (req: Request, res: Response) => {
             data: getSingleProduct
         })
     } catch (err) {
+        debug("Error thrown product: ", req.params.productId)
+
         res.status(500).send({
             status: "fail",
             message: "Couldn't get at single product",
@@ -49,6 +51,8 @@ export const show = async (req: Request, res: Response) => {
 // POST /products
 export const store = async (req: Request, res: Response) => {
     const reqBody = req.body
+
+    debug("Error thrown product %o: %o", req.body)
     
     const validationErrors = validationResult(req)
     if (!validationErrors.isEmpty()) {
@@ -69,18 +73,21 @@ export const store = async (req: Request, res: Response) => {
                 stock_quantity: reqBody.stock_quantity 
             }
         })
-        debug("postProduct:", postProduct)
+        debug("postProduct: %o", postProduct)
 
-        res.status(201).send({
-            status: "succsess",
-            data: postProduct
-        })
+              res.status(201).send({
+                  status: "succsess",
+                  data: postProduct
+              })
+
     }catch(err){
-        debug("Error thrown pn product %o: %o", req.body)
+        debug("Error for post product: %o", reqBody.status, err)
+
         res.status(500).send({
             status: "error",
             message: "Internal server error. Couldn't post the products",
             error: err
         })
+        
     }
 }

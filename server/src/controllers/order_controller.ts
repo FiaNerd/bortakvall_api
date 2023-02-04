@@ -15,7 +15,7 @@ export const index = async (req: Request, res: Response) => {
     }catch(err){
         res.status(400).send({
             status: "fail",
-            message: "Couldn't get the order",
+            message: "Could not get the order",
             error: err
         })
     }
@@ -42,7 +42,7 @@ export const show = async (req: Request, res: Response) => {
     } catch (err) {
         res.status(400).send({
             status: "fail",
-            message: "Couldn't get the order",
+            message: "Could not get the order",
             error: err,
         })
     }
