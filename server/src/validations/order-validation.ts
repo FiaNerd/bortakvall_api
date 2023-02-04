@@ -40,12 +40,13 @@ export const orderValidationRules = [
     .replace(/\s/g, '')
     .isString()
     .withMessage("Postcode has to be a string")
-    // .isPostalCode("SE")
+    .bail()
+     .matches(/^[0-9]+$/)
+     .withMessage("Postcode must contain only numbers")
+     .bail()
     .isLength({ min: 5, max: 6 })
     .withMessage('Postcode must be between 6 characters')
     .bail()
-    .matches(/^[0-9]+$/)
-     .withMessage("Postcode must contain only numbers")
      .bail(),
 
     
@@ -83,7 +84,7 @@ export const orderValidationRules = [
     .isNumeric()
     .withMessage("Order total has to be valid number, only positive integer")
     .bail()
-    .matches(/^[0-9]+$/)
+    .custom(value => typeof value === 'number')
     .withMessage("Order total required positive integer")
     .bail()
     .isInt({min: 1})
@@ -95,30 +96,47 @@ export const orderValidationRules = [
 export const orderItemsValidationRules = [
     
  body('order_items.*.product_id')
- .isNumeric().withMessage("Product ID has to be a positive integer").bail()
- .matches(/^[0-9]+$/)
-  .withMessage("Order items required positive integer")
+ .isNumeric()
+ .withMessage("Product ID has to be a positive integer")
+ .bail()
+ .custom(value => typeof value === 'number')
+  .withMessage("Order total required positive integer")
   .bail()
  .isInt({min: 1})
- .withMessage("Product ID has to be at minimum 1 integer").bail(), 
+ .withMessage("Product ID has to be at minimum 1 integer")
+ .bail(), 
 
  body('order_items.*.qty')
  .isNumeric()
- .withMessage("Item quantity has to be a positive integer").bail()
+ .withMessage("Item quantity has to be a positive integer")
+ .bail()
+ .custom(value => typeof value === 'number')
+ .withMessage("Order total required positive integer")
+ .bail()
  .isInt({min: 1})
- .withMessage("Item quantity has to be minimum 1 quantity").bail(), 
+ .withMessage("Item quantity has to be minimum 1 quantity")
+ .bail(), 
 
  body('order_items.*.item_price')
  .isNumeric()
- .withMessage("Item price has to be a positive integer").bail()
+ .withMessage("Item price has to be a positive integer")
+ .bail()
+ .custom(value => typeof value === 'number')
+ .withMessage("Order total required positive integer")
+ .bail()
  .isInt({min: 1})
  .withMessage("Item price is minimum 1 kr").bail(), 
   
  body('order_items.*.item_total')
  .isNumeric()
- .withMessage("Item quantity has to be a positive integer").bail()
+ .withMessage("Item quantity has to be a positive integer")
+ .bail()
+ .custom(value => typeof value === 'number')
+ .withMessage("Order total required positive integer")
+ .bail()
  .isInt({min: 1})
- .withMessage("Item total is minimum 1 kr in total").bail(), 
+ .withMessage("Item total is minimum 1 kr in total")
+ .bail(), 
 ]
 
 
