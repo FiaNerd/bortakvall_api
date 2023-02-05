@@ -7,6 +7,7 @@ export const orderValidationRules = [
 
     body('customer_first_name')
     .isString()
+    .toLowerCase()
     .withMessage('First name has to be a string')
     .bail()
     .custom(regexLetters)
@@ -16,6 +17,7 @@ export const orderValidationRules = [
     .bail(),
 
     body('customer_last_name')
+    .toLowerCase()
     .isString()
     .withMessage("Last name has to be a string")
     .bail()
@@ -26,6 +28,7 @@ export const orderValidationRules = [
     .bail(),
 
     body('customer_address')
+    .toLowerCase()
     .isString()
     .withMessage("Address has to be a string")
     .bail()
@@ -49,6 +52,7 @@ export const orderValidationRules = [
 
     
     body('customer_city')
+    .toLowerCase()
     .isString()
     .withMessage("City has to be a string")
     .bail()
@@ -59,6 +63,7 @@ export const orderValidationRules = [
     .bail(), 
 
     body('customer_email')
+    .toLowerCase()
     .isEmail()
     .withMessage("Not a valid email")
     .bail(),
