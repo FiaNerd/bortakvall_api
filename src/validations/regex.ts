@@ -19,4 +19,15 @@ export const regexLetters = (value: string) => {
     }
     return true;
   }
+
+
+  export const regexPostalCode = (value: string) => {
+    const regexPostcode = /^[0-9]{3}\s?[0-9]{2}$/ 
+
+    const isValidPostalCode = value.replace(/\s+/g, '').match(regexPostcode)
   
+        if(!isValidPostalCode ) {
+            throw new Error("Postcode must contain only numbers")
+        }
+        return isValidPostalCode
+  }

@@ -1,5 +1,5 @@
 import { body } from 'express-validator'
-import { regexLetters, regexPhone } from './regex'
+import { regexLetters, regexPhone, regexPostalCode } from './regex'
 import Debug from 'debug'
 const debug = Debug('prisma-bortakvall: product-controller')
 
@@ -41,14 +41,11 @@ export const orderValidationRules = [
     .isString()
     .withMessage("Postcode has to be a string")
     .bail()
-    .matches(/^[0-9\s]+$/)
-    // .trim()
-     .withMessage("Postcode must contain only numbers")
-     .bail()
     .isLength({ min: 5, max: 6 })
-    .withMessage('Postcode must be between 6 characters')
+    .withMessage('Postcode must be between 5 and 6 characters')
     .bail()
-     .bail(),
+    .custom(regexPostalCode)
+    .bail(),
 
     
     body('customer_city')
