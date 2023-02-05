@@ -1,4 +1,5 @@
 import { body } from 'express-validator'
+import { regexLetters, regexPhone } from './regex'
 import Debug from 'debug'
 const debug = Debug('prisma-bortakvall: product-controller')
 
@@ -8,8 +9,7 @@ export const orderValidationRules = [
     .isString()
     .withMessage('First name has to be a string')
     .bail()
-    .matches(/^[a-zA-Z\-]+$/)
-    .withMessage("Only letters and hyphans")
+    .custom(regexLetters)
     .bail()
     .isLength({min: 2})
     .withMessage("Has to be at least 2 characters")
@@ -19,8 +19,7 @@ export const orderValidationRules = [
     .isString()
     .withMessage("Last name has to be a string")
     .bail()
-    .matches(/^[a-zA-Z\-]+$/)
-    .withMessage("Only letters and hyphans")
+    .custom(regexLetters)
     .bail()
     .isLength({min: 3})
     .withMessage("Has to be at least 3 characters")
@@ -36,12 +35,11 @@ export const orderValidationRules = [
     .bail(), 
 
     body('customer_postcode')
-    .trim()
-    .replace(/\s/g, '')
     .isString()
     .withMessage("Postcode has to be a string")
     .bail()
-     .matches(/^[0-9]+$/)
+    .matches(/^[0-9\s]+$/)
+    // .trim()
      .withMessage("Postcode must contain only numbers")
      .bail()
     .isLength({ min: 5, max: 6 })
@@ -54,8 +52,7 @@ export const orderValidationRules = [
     .isString()
     .withMessage("City has to be a string")
     .bail()
-    .matches(/^[a-zA-Z\-]+$/)
-    .withMessage("Only letters and hyphans")
+    .custom(regexLetters)
     .bail()
     .isLength({min: 3})
     .withMessage("Has to be at least 3 characters")
@@ -69,16 +66,7 @@ export const orderValidationRules = [
     
     body('customer_phone')
         .optional()
-         .custom((value, { req }) => {
-    if (value && (typeof value !== 'string' || !/^[0-9\+\(\)\-\s]+$/.test(value))) {
-        throw new Error("Phone number must be a string containing only numbers");
-        }
-   if (value && (value.length < 7 || value.length > 14 || !/^((\+46)|0)\d{7,14}$/.test(value))) {
-        throw new Error("Phone number must be between 7 and 14 characters and must be a valid Swedish phone number format");
-    }
-    return true;
-  }),
-
+        .custom(regexPhone),
 
    body('order_total')
     .isNumeric()
