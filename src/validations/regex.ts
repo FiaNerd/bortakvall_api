@@ -33,5 +33,10 @@ export const regexLetters = (value: string) => {
   }
 
   export const positveInteger = (value: number) => {
-     return typeof value === 'number'
+    const isValidInteger = typeof value === 'number'
+
+    if(!isValidInteger) {
+        throw new Error("Not a valid integer")
+    }
+     return isValidInteger
   }
