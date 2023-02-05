@@ -71,6 +71,8 @@ export const orderValidationRules = [
 
    body('order_total')
     .isNumeric()
+    .withMessage("Order total i not a valid number")
+    .bail()
     .custom(positveInteger)
     .withMessage("Order total required positive integer")
     .bail()
@@ -84,6 +86,8 @@ export const orderItemsValidationRules = [
     
  body('order_items.*.product_id')
  .isNumeric()
+ .withMessage("Product id is not a valid number")
+ .bail()
  .custom(positveInteger)
   .withMessage("Order total required positive integer")
   .bail()
@@ -93,6 +97,8 @@ export const orderItemsValidationRules = [
 
  body('order_items.*.qty')
  .isNumeric()
+ .withMessage("Quantity is not a valid number")
+ .bail()
  .custom(positveInteger)
  .withMessage("Order total required positive integer")
  .bail()
@@ -102,14 +108,18 @@ export const orderItemsValidationRules = [
 
  body('order_items.*.item_price')
  .isNumeric()
+ .withMessage("Item price is not a valid number")
+ .bail()
  .custom(positveInteger)
- .withMessage("Order total required positive integer")
+ .withMessage("Order items required positive integer")
  .bail()
  .isInt({min: 1})
  .withMessage("Item price is minimum 1 kr").bail(), 
   
  body('order_items.*.item_total')
  .isNumeric()
+ .withMessage("Item total is not a valid number")
+ .bail()
  .custom(positveInteger)
  .withMessage("Order total required positive integer")
  .bail()
