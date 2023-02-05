@@ -31,3 +31,7 @@ export const regexLetters = (value: string) => {
         }
         return isValidPostalCode
   }
+
+  export const positveInteger = (value: number) => {
+     return typeof value === 'number'
+  }
