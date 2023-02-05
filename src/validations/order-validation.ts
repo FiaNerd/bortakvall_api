@@ -1,90 +1,77 @@
 import { body } from 'express-validator'
+import { regexLetters, regexPhone, regexPostalCode, positveInteger } from './regex'
 import Debug from 'debug'
 const debug = Debug('prisma-bortakvall: product-controller')
 
 export const orderValidationRules = [
 
     body('customer_first_name')
-    .isString()
-    .withMessage('First name has to be a string')
-    .bail()
-    .matches(/^[a-zA-Z\-]+$/)
-    .withMessage("Only letters and hyphans")
-    .bail()
-    .isLength({min: 2})
-    .withMessage("Has to be at least 2 characters")
-    .bail(),
+     .isString()
+     .toLowerCase()
+     .withMessage('First name has to be a string')
+     .bail()
+     .custom(regexLetters)
+     .bail()
+     .isLength({min: 2})
+     .withMessage("Has to be at least 2 characters")
+     .bail(),
 
     body('customer_last_name')
-    .isString()
-    .withMessage("Last name has to be a string")
-    .bail()
-    .matches(/^[a-zA-Z\-]+$/)
-    .withMessage("Only letters and hyphans")
-    .bail()
-    .isLength({min: 3})
-    .withMessage("Has to be at least 3 characters")
-    .bail(),
+     .toLowerCase()
+     .isString()
+     .withMessage("Last name has to be a string")
+     .bail()
+     .custom(regexLetters)
+     .bail()
+     .isLength({min: 3})
+     .withMessage("Has to be at least 3 characters")
+     .bail(),
 
     body('customer_address')
-    .isString()
-    .withMessage("Address has to be a string")
-    .bail()
-    .isLength({min: 3})
-    .withMessage("Has to be at least 3 characters")
-    .bail()
-    .bail(), 
+     .toLowerCase()
+     .isString()
+     .withMessage("Address has to be a string")
+     .bail()
+     .isLength({min: 3})
+     .withMessage("Has to be at least 3 characters")
+     .bail()
+     .bail(), 
 
     body('customer_postcode')
-    .trim()
-    .replace(/\s/g, '')
-    .isString()
-    .withMessage("Postcode has to be a string")
-    .bail()
-     .matches(/^[0-9]+$/)
-     .withMessage("Postcode must contain only numbers")
+     .isString()
+     .withMessage("Postcode has to be a string")
      .bail()
-    .isLength({ min: 5, max: 6 })
-    .withMessage('Postcode must be between 6 characters')
-    .bail()
+     .isLength({ min: 5, max: 6 })
+     .withMessage('Postcode must be between 5 and 6 characters')
+     .bail()
+     .custom(regexPostalCode)
      .bail(),
 
     
     body('customer_city')
+    .toLowerCase()
     .isString()
     .withMessage("City has to be a string")
     .bail()
-    .matches(/^[a-zA-Z\-]+$/)
-    .withMessage("Only letters and hyphans")
+    .custom(regexLetters)
     .bail()
     .isLength({min: 3})
     .withMessage("Has to be at least 3 characters")
     .bail(), 
 
     body('customer_email')
-    .isEmail()
-    .withMessage("Not a valid email")
-    .bail(),
+      .toLowerCase()
+      .isEmail()
+      .withMessage("Not a valid email")
+      .bail(),
 
-    
     body('customer_phone')
         .optional()
-         .custom((value, { req }) => {
-    if (value && (typeof value !== 'string' || !/^[0-9\+\(\)\-\s]+$/.test(value))) {
-        throw new Error("Phone number must be a string containing only numbers");
-        }
-   if (value && (value.length < 7 || value.length > 14 || !/^((\+46)|0)\d{7,14}$/.test(value))) {
-        throw new Error("Phone number must be between 7 and 14 characters and must be a valid Swedish phone number format");
-    }
-    return true;
-  }),
-
+        .custom(regexPhone),
 
    body('order_total')
     .isNumeric()
-    .withMessage("Order total has to be valid number, only positive integer")
-    .bail()
-    .custom(value => typeof value === 'number')
+    .custom(positveInteger)
     .withMessage("Order total required positive integer")
     .bail()
     .isInt({min: 1})
@@ -97,9 +84,7 @@ export const orderItemsValidationRules = [
     
  body('order_items.*.product_id')
  .isNumeric()
- .withMessage("Product ID has to be a positive integer")
- .bail()
- .custom(value => typeof value === 'number')
+ .custom(positveInteger)
   .withMessage("Order total required positive integer")
   .bail()
  .isInt({min: 1})
@@ -108,9 +93,7 @@ export const orderItemsValidationRules = [
 
  body('order_items.*.qty')
  .isNumeric()
- .withMessage("Item quantity has to be a positive integer")
- .bail()
- .custom(value => typeof value === 'number')
+ .custom(positveInteger)
  .withMessage("Order total required positive integer")
  .bail()
  .isInt({min: 1})
@@ -119,9 +102,7 @@ export const orderItemsValidationRules = [
 
  body('order_items.*.item_price')
  .isNumeric()
- .withMessage("Item price has to be a positive integer")
- .bail()
- .custom(value => typeof value === 'number')
+ .custom(positveInteger)
  .withMessage("Order total required positive integer")
  .bail()
  .isInt({min: 1})
@@ -129,9 +110,7 @@ export const orderItemsValidationRules = [
   
  body('order_items.*.item_total')
  .isNumeric()
- .withMessage("Item quantity has to be a positive integer")
- .bail()
- .custom(value => typeof value === 'number')
+ .custom(positveInteger)
  .withMessage("Order total required positive integer")
  .bail()
  .isInt({min: 1})
