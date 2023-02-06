@@ -70,7 +70,7 @@ export const store = async (req: Request, res: Response) => {
                 price: reqBody.price,         
                 images: reqBody.images,         
                 stock_status: reqBody.stock_status,   
-                stock_quantity: reqBody.stock_quantity 
+                stock_quantity: reqBody.stock_quantity, 
             }
         })
         debug("postProduct: %o", postProduct)

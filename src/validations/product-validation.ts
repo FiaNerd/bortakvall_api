@@ -1,4 +1,5 @@
 import { body, check } from 'express-validator'
+import { validInteger } from './regex'
 
 export const productValidationRules = [
 
@@ -7,7 +8,8 @@ export const productValidationRules = [
      .withMessage('Name has to be a string')
      .bail()
      .isLength({min: 3})
-     .withMessage("Name has to be at least 3 characters"),
+     .withMessage("Name has to be at least 3 characters")
+     .bail(),
 
     body('description')
      .isString()
@@ -21,8 +23,7 @@ export const productValidationRules = [
      .isNumeric()
      .withMessage("Price is not a valid number")
      .bail()
-     .matches(/^[0-9]+$/)
-     .withMessage("Price has to be a valid number")
+     .custom(validInteger)
      .bail()
      .isInt({min: 1})
      .withMessage("Price has to be at minimum 1 integer")
@@ -52,12 +53,10 @@ export const productValidationRules = [
        .isNumeric()
        .withMessage("Stock quantity is not a valid number")
        .bail()
+       .custom(validInteger)
        .bail()
        .isInt({min: 0})
        .withMessage("Stock quantity has to be at minimum 0 integer")
        .bail()
-       .matches(/^[0-9]+$/)
-       .withMessage("Stock quantity has to be a valid number")
-       .bail(), 
 ]
 

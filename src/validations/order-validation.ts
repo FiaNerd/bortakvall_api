@@ -1,5 +1,5 @@
 import { body } from 'express-validator'
-import { regexLetters, regexPhone, regexPostalCode, positveInteger } from './regex'
+import { regexLetters, regexPhone, regexPostalCode, validInteger } from './regex'
 import Debug from 'debug'
 const debug = Debug('prisma-bortakvall: product-controller')
 
@@ -34,7 +34,6 @@ export const orderValidationRules = [
      .bail()
      .isLength({min: 3})
      .withMessage("Has to be at least 3 characters")
-     .bail()
      .bail(), 
 
     body('customer_postcode')
@@ -73,8 +72,7 @@ export const orderValidationRules = [
     .isNumeric()
     .withMessage("Order total i not a valid number")
     .bail()
-    .custom(positveInteger)
-    .withMessage("Order total required positive integer")
+    .custom(validInteger)
     .bail()
     .isInt({min: 1})
     .withMessage("Item total is minimum 1 kr in total")
@@ -88,8 +86,7 @@ export const orderItemsValidationRules = [
  .isNumeric()
  .withMessage("Product id is not a valid number")
  .bail()
- .custom(positveInteger)
-  .withMessage("Order total required positive integer")
+ .custom(validInteger)
   .bail()
  .isInt({min: 1})
  .withMessage("Product ID has to be at minimum 1 integer")
@@ -99,8 +96,7 @@ export const orderItemsValidationRules = [
  .isNumeric()
  .withMessage("Quantity is not a valid number")
  .bail()
- .custom(positveInteger)
- .withMessage("Order total required positive integer")
+ .custom(validInteger)
  .bail()
  .isInt({min: 1})
  .withMessage("Item quantity has to be minimum 1 quantity")
@@ -110,8 +106,7 @@ export const orderItemsValidationRules = [
  .isNumeric()
  .withMessage("Item price is not a valid number")
  .bail()
- .custom(positveInteger)
- .withMessage("Order items required positive integer")
+ .custom(validInteger)
  .bail()
  .isInt({min: 1})
  .withMessage("Item price is minimum 1 kr").bail(), 
@@ -120,8 +115,7 @@ export const orderItemsValidationRules = [
  .isNumeric()
  .withMessage("Item total is not a valid number")
  .bail()
- .custom(positveInteger)
- .withMessage("Order total required positive integer")
+ .custom(validInteger)
  .bail()
  .isInt({min: 1})
  .withMessage("Item total is minimum 1 kr in total")
