@@ -32,6 +32,8 @@ export const productValidationRules = [
 
     body('images')
      .isObject()
+     .withMessage("Images is reguired and has to be an object with 'thumbnail' and 'large' images")
+     .bail()
      .custom((image, { req }) => {
         
         if (!image.thumbnail) {
