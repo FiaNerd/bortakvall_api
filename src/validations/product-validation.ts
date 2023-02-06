@@ -1,5 +1,5 @@
 import { body, check } from 'express-validator'
-import { validInteger } from './regex'
+import { validInteger } from './check_custom_validation'
 
 
 export const productValidationRules = [

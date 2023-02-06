@@ -1,6 +1,7 @@
 
 export const regexLetters = (value: string) => {
-    const regex = /^[a-zA-ZäöåÄÖÅ\-]+$/u;
+    const regex = /^[a-zA-ZäöåÄÖÅ\-]+$/u
+    
     if (!regex.test(value)) {
       throw new Error("Only letters and hyphens allowed");
     }
@@ -32,12 +33,4 @@ export const regexLetters = (value: string) => {
         return isValidPostalCode
   }
 
-  export const validInteger = (value: number) => {
-    const isValidInteger = typeof value === 'number'
-
-    if(!isValidInteger) {
-        throw new Error("Not a valid integer")
-    }
-     return isValidInteger
-  }
-
+  
