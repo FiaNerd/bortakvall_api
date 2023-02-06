@@ -32,7 +32,7 @@ export const regexLetters = (value: string) => {
         return isValidPostalCode
   }
 
-  export const positveInteger = (value: number) => {
+  export const validInteger = (value: number) => {
     const isValidInteger = typeof value === 'number'
 
     if(!isValidInteger) {
@@ -40,3 +40,4 @@ export const regexLetters = (value: string) => {
     }
      return isValidInteger
   }
+
