@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
 import { validationResult } from 'express-validator'
 import prisma from '../prisma'
-import { OrderItem } from '../interfaces/interface_OrderItem'
+import { IOrderItem } from '../interfaces/OrderItem_interface'
 
 
 // GET /order
@@ -73,7 +73,7 @@ export const store = async (req: Request, res: Response) => {
                 customer_phone: reqBody.customer_phone,
                 order_total: reqBody.order_total,
             items: {
-                create: reqBody.order_items.map((item: OrderItem) => ({
+                create: reqBody.order_items.map((item: IOrderItem) => ({
                 qty: item.qty,
                 item_price: item.item_price,
                 item_total: item.item_total,
