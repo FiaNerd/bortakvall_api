@@ -1,4 +1,5 @@
 import { body, check } from 'express-validator'
+import { regexLetters } from './regex'
 import { validInteger } from './check_custom_validation'
 
 
@@ -52,7 +53,8 @@ export const productValidationRules = [
       body('stock_status')
        .isString()
        .withMessage("Stock status has to be a string")
-       .bail(),
+       .bail()
+       .custom(regexLetters),
 
       body('stock_quantity')
        .isNumeric()

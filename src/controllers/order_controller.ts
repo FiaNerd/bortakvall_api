@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
 import { validationResult } from 'express-validator'
 import prisma from '../prisma'
-import { IOrderItem } from '../interfaces/OrderItem_interface'
+import { IOrderItem } from '../interfaces/orderItem_interface'
 
 
 // GET /order

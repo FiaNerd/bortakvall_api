@@ -1,9 +1,18 @@
 
-export const regexLetters = (value: string) => {
+export const regexLettersAndHyphans = (value: string) => {
     const regex = /^[a-zA-ZäöåÄÖÅ\-]+$/u
     
     if (!regex.test(value)) {
       throw new Error("Only letters and hyphens allowed");
+    }
+    return true;
+  };
+
+export const regexLetters = (value: string) => {
+    const regex = /^[a-zA-ZäöåÄÖÅ]+$/u
+    
+    if (!regex.test(value)) {
+      throw new Error("Only letters are allowed");
     }
     return true;
   };
