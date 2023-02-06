@@ -1,6 +1,7 @@
 import { body, check } from 'express-validator'
 import { validInteger } from './regex'
 
+
 export const productValidationRules = [
 
     body('name')
@@ -35,11 +36,13 @@ export const productValidationRules = [
      .withMessage("Images is reguired and has to be an object with 'thumbnail' and 'large' images")
      .bail()
      .custom((image, { req }) => {
-        
-        if (!image.thumbnail) {
+        if (!image.thumbnail && !image.large) {
+            throw new Error("Both 'thumbnail' and 'large' images are required");
+          } 
+        else if (!image.thumbnail) {
             throw new Error("'thumbnail' images are required");
         }
-        if (!image.large) {
+        else if (!image.large) {
             throw new Error("'large' images are required");
         }
         return true;
