@@ -8,14 +8,6 @@ export const regexLettersAndHyphans = (value: string) => {
     return true;
   };
 
-export const regexLetters = (value: string) => {
-    const regex = /^[a-zA-ZäöåÄÖÅ]+$/u
-    
-    if (!regex.test(value)) {
-      throw new Error("Only letters are allowed");
-    }
-    return true;
-  };
 
   export const regexPhone = (value: string) => {
     const regexPhone = /^[0-9\+\(\)\-\s]+$/

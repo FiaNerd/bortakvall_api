@@ -1,5 +1,4 @@
-import { body, check } from 'express-validator'
-import { regexLetters } from './regex'
+import { body } from 'express-validator'
 import { validInteger } from './check_custom_validation'
 
 
@@ -56,8 +55,7 @@ export const productValidationRules = [
        .bail()
        .isIn(['instock', 'outofstock'])
        .withMessage("Invalid, either 'instock' or 'outofstock")
-       .bail()
-       .custom(regexLetters),
+       .bail(),
 
       body('stock_quantity')
        .isNumeric()
