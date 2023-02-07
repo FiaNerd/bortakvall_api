@@ -54,6 +54,9 @@ export const productValidationRules = [
        .isString()
        .withMessage("Stock status has to be a string")
        .bail()
+       .isIn(['instock', 'outofstock'])
+       .withMessage("Invalid, either 'instock' or 'outofstock")
+       .bail()
        .custom(regexLetters),
 
       body('stock_quantity')
