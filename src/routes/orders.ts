@@ -4,8 +4,8 @@ import { orderValidationRules, orderItemsValidationRules } from "../validations/
 
 const routes = express.Router()
 
-routes.get("/", index)
-routes.get("/:orderId", show)
+    routes.get("/", index)
+    routes.get("/:orderId", show)
 
     routes.post("/", orderValidationRules,orderItemsValidationRules, store)
 

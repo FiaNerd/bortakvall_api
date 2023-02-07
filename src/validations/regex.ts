@@ -1,5 +1,5 @@
 
-export const regexLetters = (value: string) => {
+export const regexLettersAndHyphans = (value: string) => {
     const regex = /^[a-zA-ZäöåÄÖÅ\-]+$/u
     
     if (!regex.test(value)) {
@@ -7,6 +7,7 @@ export const regexLetters = (value: string) => {
     }
     return true;
   };
+
 
   export const regexPhone = (value: string) => {
     const regexPhone = /^[0-9\+\(\)\-\s]+$/

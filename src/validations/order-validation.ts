@@ -1,5 +1,5 @@
 import { body } from 'express-validator'
-import { regexLetters, regexPhone, regexPostalCode } from './regex'
+import { regexLettersAndHyphans, regexPhone, regexPostalCode } from './regex'
 import { validInteger } from './check_custom_validation'
 import Debug from 'debug'
 const debug = Debug('prisma-bortakvall: product-controller')
@@ -11,7 +11,7 @@ export const orderValidationRules = [
      .toLowerCase()
      .withMessage('First name has to be a string')
      .bail()
-     .custom(regexLetters)
+     .custom(regexLettersAndHyphans)
      .bail()
      .isLength({min: 2})
      .withMessage("Has to be at least 2 characters")
@@ -22,7 +22,7 @@ export const orderValidationRules = [
      .isString()
      .withMessage("Last name has to be a string")
      .bail()
-     .custom(regexLetters)
+     .custom(regexLettersAndHyphans)
      .bail()
      .isLength({min: 3})
      .withMessage("Has to be at least 3 characters")
@@ -53,7 +53,7 @@ export const orderValidationRules = [
     .isString()
     .withMessage("City has to be a string")
     .bail()
-    .custom(regexLetters)
+    .custom(regexLettersAndHyphans)
     .bail()
     .isLength({min: 3})
     .withMessage("Has to be at least 3 characters")
