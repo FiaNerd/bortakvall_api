@@ -7,9 +7,13 @@ const debug = Debug('prisma-bortakvall: product-controller')
 export const orderValidationRules = [
 
     body('customer_first_name')
+     .trim()
      .isString()
      .toLowerCase()
      .withMessage('First name has to be a string')
+     .bail()
+     .notEmpty()
+     .withMessage("It's required to add a first name")
      .bail()
      .custom(regexLettersAndHyphans)
      .bail()
@@ -18,9 +22,13 @@ export const orderValidationRules = [
      .bail(),
 
     body('customer_last_name')
+     .trim()
      .toLowerCase()
      .isString()
      .withMessage("Last name has to be a string")
+     .bail()
+     .notEmpty()
+     .withMessage("It's required to add a last name")
      .bail()
      .custom(regexLettersAndHyphans)
      .bail()
@@ -29,15 +37,20 @@ export const orderValidationRules = [
      .bail(),
 
     body('customer_address')
+     .trim()
      .toLowerCase()
      .isString()
      .withMessage("Address has to be a string")
+     .bail()
+     .notEmpty()
+     .withMessage("It's required to add a adress")
      .bail()
      .isLength({min: 3})
      .withMessage("Has to be at least 3 characters")
      .bail(), 
 
     body('customer_postcode')
+     .trim()
      .isString()
      .withMessage("Postcode has to be a string")
      .bail()
@@ -49,9 +62,13 @@ export const orderValidationRules = [
 
     
     body('customer_city')
+    .trim()
     .toLowerCase()
     .isString()
     .withMessage("City has to be a string")
+    .bail()
+    .notEmpty()
+    .withMessage("It's required to add a city")
     .bail()
     .custom(regexLettersAndHyphans)
     .bail()
@@ -60,12 +77,14 @@ export const orderValidationRules = [
     .bail(), 
 
     body('customer_email')
+      .trim()
       .toLowerCase()
       .isEmail()
       .withMessage("Not a valid email")
       .bail(),
 
     body('customer_phone')
+        .trim()
         .optional()
         .custom(regexPhone),
 

@@ -5,6 +5,7 @@ import { validInteger } from './check_custom_validation'
 export const productValidationRules = [
 
     body('name')
+     .trim()
      .isString()
      .withMessage('Name has to be a string')
      .bail()
@@ -13,6 +14,7 @@ export const productValidationRules = [
      .bail(),
 
     body('description')
+     .trim()
      .isString()
      .withMessage("Description has to be a string")
      .bail()
@@ -50,6 +52,7 @@ export const productValidationRules = [
      .bail(),
 
       body('stock_status')
+       .trim()
        .isString()
        .withMessage("Stock status has to be a string")
        .bail()
