@@ -1,6 +1,6 @@
 
 export const regexLettersAndHyphans = (value: string) => {
-    const regex = /^[a-zA-ZäöåÄÖÅ\-]+$/u
+    const regex = /^[a-zA-ZäöåÄÖÅ\s\-]+$/u
     
     if (!regex.test(value)) {
       throw new Error("Only letters and hyphens allowed");
