@@ -1,6 +1,5 @@
 import { body } from 'express-validator'
-import { validInteger } from './check_custom_validation'
-
+import { validInteger, validImages } from './check_custom_validation'
 
 export const productValidationRules = [
 
@@ -35,20 +34,8 @@ export const productValidationRules = [
 
     body('images')
      .isObject()
-     .withMessage("Images is reguired and has to be an object with 'thumbnail' and 'large' images")
      .bail()
-     .custom((image, { req }) => {
-        if (!image.thumbnail && !image.large) {
-            throw new Error("Both 'thumbnail' and 'large' images are required");
-          } 
-        else if (!image.thumbnail) {
-            throw new Error("'thumbnail' images are required");
-        }
-        else if (!image.large) {
-            throw new Error("'large' images are required");
-        }
-        return true;
-    })
+     .custom(validImages)
      .bail(),
 
       body('stock_status')

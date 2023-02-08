@@ -28,8 +28,6 @@ export const show = async (req: Request, res: Response) => {
     const productId = Number(req.params.productId)
 
     try {
-
-     
         const productExist = await prisma.product.findUnique({
            where: { 
             id: productId
@@ -43,8 +41,6 @@ export const show = async (req: Request, res: Response) => {
                    message: `Product with id '${productId}' dosn't exists` }] 
            });
         }
-
-
 
         const getSingleProduct = await prisma.product.findUniqueOrThrow({
             where:{
@@ -80,7 +76,6 @@ export const store = async (req: Request, res: Response) => {
 		})
 	}
 
-   
 
     try{
         const { name } = req.body
@@ -121,6 +116,5 @@ export const store = async (req: Request, res: Response) => {
             message: "Internal server error. Couldn't post the products",
             error: err
         })
-        
     }
 }
