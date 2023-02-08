@@ -9,7 +9,7 @@ export const validInteger = (value: number) => {
   }
 
 
-  export const validImages = (image: { thumbnail?: string, large?: string}) => {
+  export const validImages = (image: { thumbnail: string, large: string}) => {
 
     if (!image.thumbnail && !image.large) {
         throw new Error("Both 'thumbnail' and 'large' images are required");
@@ -26,6 +26,6 @@ export const validInteger = (value: number) => {
       if (!image.large.match(/^\/storage\/products\/\d+\.png$/)) {
         throw new Error("Invalid format for 'large' image URL");
       }
-      
+
     return true
   }
