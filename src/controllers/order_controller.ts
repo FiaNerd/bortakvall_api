@@ -59,9 +59,26 @@ export const store = async (req: Request, res: Response) => {
 			status: "fail",
 			data: validationErrors.array(),
 		})
-	}
+	}  
+          
 
     try {
+
+        for (const item of reqBody.order_items) {
+            const findProducts = await prisma.product.findMany();
+
+            const findProductById = findProducts.find(product => product.id === item.product_id);
+
+            if (!findProductById) {
+            return res.status(404).send({
+                status: "fail",
+                data: [{
+                message: `Product not found with product id: ${item.product_id}`
+                }]
+            });
+            }
+        }
+
         const postOrders = await prisma.order.create({
             data: {
                 customer_first_name: reqBody.customer_first_name,

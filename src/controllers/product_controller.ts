@@ -54,8 +54,6 @@ export const store = async (req: Request, res: Response) => {
 
     debug("Error thrown product %o: %o", req.body)
 
-
-    
     const validationErrors = validationResult(req)
     if (!validationErrors.isEmpty()) {
 		return res.status(400).send({
@@ -64,19 +62,22 @@ export const store = async (req: Request, res: Response) => {
 		})
 	}
 
-     const { name } = req.body
-     const productExist = await prisma.product.findUnique({
-        where: { name }
-     })
-
-     if(productExist){
-        return res.status(400).send({ 
-            status: 'fail',
-            data: [{ message: `Product '${name}' already exists` }] });
-     }
-
+   
 
     try{
+        const { name } = req.body
+        const productExist = await prisma.product.findUnique({
+           where: { name }
+        })
+   
+        if(productExist){
+           return res.status(400).send({ 
+               status: 'fail',
+               data: [{ 
+                   message: `Product '${name}' already exists ` }] 
+           });
+        }
+    
         const postProduct = await prisma.product.create({
             data: {
                 name: reqBody.name,      
