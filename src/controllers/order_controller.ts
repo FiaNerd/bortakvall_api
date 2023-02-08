@@ -26,6 +26,21 @@ export const show = async (req: Request, res: Response) => {
     const orderId = Number(req.params.orderId)
 
     try {
+
+        const orderExist = await prisma.product.findUnique({
+            where: { 
+             id: orderId,
+             }
+         })
+    
+         if(!orderExist){
+            return res.status(400).send({ 
+                status: 'fail',
+                data: [{ 
+                    message: `Order with id '${orderId}' dosn't exists` }] 
+            });
+         }
+ 
         const getSingleOrder  = await prisma.order.findUniqueOrThrow({
             where:{
                 id: orderId
