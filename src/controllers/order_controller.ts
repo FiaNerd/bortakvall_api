@@ -93,6 +93,7 @@ export const store = async (req: Request, res: Response) => {
             });
             }
         }
+        
 
         const postOrders = await prisma.order.create({
             data: {
