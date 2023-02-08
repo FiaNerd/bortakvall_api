@@ -26,6 +26,21 @@ export const show = async (req: Request, res: Response) => {
     const orderId = Number(req.params.orderId)
 
     try {
+
+        const orderExist = await prisma.product.findUnique({
+            where: { 
+             id: orderId,
+             }
+         })
+    
+         if(!orderExist){
+            return res.status(400).send({ 
+                status: 'fail',
+                data: [{ 
+                    message: `Order with id '${orderId}' dosn't exists` }] 
+            });
+         }
+ 
         const getSingleOrder  = await prisma.order.findUniqueOrThrow({
             where:{
                 id: orderId
@@ -59,9 +74,27 @@ export const store = async (req: Request, res: Response) => {
 			status: "fail",
 			data: validationErrors.array(),
 		})
-	}
+	}  
+          
 
     try {
+
+        for (const item of reqBody.order_items) {
+            const findProducts = await prisma.product.findMany();
+
+            const findProductById = findProducts.find(product => product.id === item.product_id);
+
+            if (!findProductById) {
+            return res.status(404).send({
+                status: "fail",
+                data: [{
+                message: `Product not found with product id: ${item.product_id}`
+                }]
+            });
+            }
+        }
+        
+
         const postOrders = await prisma.order.create({
             data: {
                 customer_first_name: reqBody.customer_first_name,
