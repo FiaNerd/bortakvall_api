@@ -75,7 +75,6 @@ export const store = async (req: Request, res: Response) => {
 			data: validationErrors.array(),
 		})
 	}  
-          
 
     try {
 
@@ -93,7 +92,6 @@ export const store = async (req: Request, res: Response) => {
             });
             }
         }
-        
 
         const postOrders = await prisma.order.create({
             data: {
