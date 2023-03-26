@@ -47,8 +47,8 @@ export const show = async (req: Request, res: Response) => {
                 id: productId
             }
         })
-        res.status(200).send({
-            status: "succsess",
+            res.status(200).send({
+            status: "success",
             data: getSingleProduct
         })
     } catch (err) {
@@ -75,7 +75,6 @@ export const store = async (req: Request, res: Response) => {
 			data: validationErrors.array(),
 		})
 	}
-
 
     try{
         const { name } = req.body
@@ -104,7 +103,7 @@ export const store = async (req: Request, res: Response) => {
         debug("postProduct: %o", postProduct)
 
               res.status(201).send({
-                  status: "succsess",
+                  status: "success",
                   data: postProduct
               })
 

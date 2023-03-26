@@ -9,7 +9,7 @@ export const index = async (req: Request, res: Response) => {
     try{
         const getOrders = await prisma.order.findMany()
         res.status(200).send({
-            status: "succsess",
+            status: "success",
             data: getOrders,
         })
     }catch(err){
@@ -27,7 +27,7 @@ export const show = async (req: Request, res: Response) => {
 
     try {
 
-        const orderExist = await prisma.product.findUnique({
+        const orderExist = await prisma.order.findUnique({
             where: { 
              id: orderId,
              }
@@ -40,6 +40,7 @@ export const show = async (req: Request, res: Response) => {
                     message: `Order with id '${orderId}' dosn't exists` }] 
             });
          }
+
  
         const getSingleOrder  = await prisma.order.findUniqueOrThrow({
             where:{
@@ -50,8 +51,9 @@ export const show = async (req: Request, res: Response) => {
                 items: true,
             },
         }) 
+
         res.status(200).send({
-            status: "succsess",
+            status: "success",
             data: getSingleOrder,
         })
     } catch (err) {
@@ -68,7 +70,7 @@ export const show = async (req: Request, res: Response) => {
 export const store = async (req: Request, res: Response) => {
     const reqBody = req.body;
 
-    const validationErrors = validationResult(req)
+    const validationErrors = validationResult(reqBody)
     if (!validationErrors.isEmpty()) {
 		return res.status(400).send({
 			status: "fail",
@@ -87,7 +89,7 @@ export const store = async (req: Request, res: Response) => {
             return res.status(404).send({
                 status: "fail",
                 data: [{
-                message: `Product not found with product id: ${item.product_id}`
+                message: `Order not found with order id: ${item.product_id}`
                 }]
             });
             }
@@ -133,7 +135,7 @@ console.log(postOrders);
         status: "fail",
         message: "Couldn't make a post to orders",
         error: err,
-      });
+      })
     }
-  };
+  }
   
