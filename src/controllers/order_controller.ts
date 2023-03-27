@@ -70,7 +70,7 @@ export const show = async (req: Request, res: Response) => {
 export const store = async (req: Request, res: Response) => {
     const reqBody = req.body;
 
-    const validationErrors = validationResult(req)
+    const validationErrors = validationResult(reqBody)
     if (!validationErrors.isEmpty()) {
 		return res.status(400).send({
 			status: "fail",
