@@ -70,7 +70,8 @@ export const show = async (req: Request, res: Response) => {
 export const store = async (req: Request, res: Response) => {
     const reqBody = req.body;
 
-    const validationErrors = validationResult(reqBody)
+    const validationErrors = validationResult(req)
+
     if (!validationErrors.isEmpty()) {
 		return res.status(400).send({
 			status: "fail",
@@ -124,7 +125,6 @@ export const store = async (req: Request, res: Response) => {
                 },
             });
           
-console.log(postOrders);
       res.status(201).send({
         status: "success",
         data: postOrders,

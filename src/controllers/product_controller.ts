@@ -17,7 +17,7 @@ export const index = async (req: Request, res: Response) => {
     }catch(err){
         res.status(500).send({
             status: "fail",
-            message: "Internal serverCouldn't get the products",
+            message: "Internal server Couldn't get the products",
             error: err,
         })
     }
@@ -69,6 +69,7 @@ export const store = async (req: Request, res: Response) => {
     debug("Error thrown product %o: %o", req.body)
 
     const validationErrors = validationResult(req)
+
     if (!validationErrors.isEmpty()) {
 		return res.status(400).send({
 			status: "fail",
@@ -100,6 +101,7 @@ export const store = async (req: Request, res: Response) => {
                 stock_quantity: reqBody.stock_quantity, 
             }
         })
+        
         debug("postProduct: %o", postProduct)
 
               res.status(201).send({
@@ -108,7 +110,8 @@ export const store = async (req: Request, res: Response) => {
               })
 
     }catch(err){
-        debug("Error for post product: %o", reqBody.status, err)
+
+        debug("Error for post product, catch: %o", reqBody.status, err)
 
         res.status(500).send({
             status: "error",
