@@ -1,6 +1,5 @@
 import { body } from 'express-validator'
 import { regexLettersAndHyphans, regexPhone, regexPostalCode } from './regex'
-// import { validInteger } from './check_custom_validation'
 import Debug from 'debug'
 const debug = Debug('prisma-bortakvall: product-controller')
 

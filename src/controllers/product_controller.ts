@@ -1,7 +1,6 @@
 import { Request, Response } from 'express'
 import { validationResult } from 'express-validator'
 import prisma from '../prisma'
-
 import Debug from 'debug'
 const debug = Debug('prisma_bortakvall:product_controller')
 
@@ -51,7 +50,9 @@ export const show = async (req: Request, res: Response) => {
             status: "success",
             data: getSingleProduct
         })
+
     } catch (err) {
+        
         debug("Error thrown product: ", req.params.productId)
 
         res.status(500).send({
