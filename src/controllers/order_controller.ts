@@ -132,13 +132,14 @@ export const store = async (req: Request, res: Response) => {
             ),
         },
     },
-            include: {
-                items: true,
-                },
-            })
-
-            console.log("Request BODY", reqBody)
-            console.log("POST ORDERS", postOrders);
+        include: {
+            items: {
+                 include: {
+                    product: true,
+                }
+            }
+        },
+    })
           
       res.status(201).send({
         status: "success",

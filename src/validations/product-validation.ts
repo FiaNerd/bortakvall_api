@@ -1,5 +1,5 @@
 import { body } from 'express-validator'
-import { validInteger, validImages } from './check_custom_validation'
+// import { validInteger } from './check_custom_validation'
 
 export const productValidationRules = [
 
@@ -25,7 +25,7 @@ export const productValidationRules = [
      .isNumeric()
      .withMessage("Price is not a valid number")
      .bail()
-     .custom(validInteger)
+     .isInt()
      .bail()
      .isInt({min: 1})
      .withMessage("Price has to be at minimum 1 integer")
@@ -35,7 +35,7 @@ export const productValidationRules = [
     body('images')
      .isObject()
      .bail()
-     .custom(validImages)
+     .isString()
      .bail(),
 
       body('stock_status')
@@ -51,7 +51,7 @@ export const productValidationRules = [
        .isNumeric()
        .withMessage("Stock quantity is not a valid number")
        .bail()
-       .custom(validInteger)
+       .isInt()
        .bail()
        .isInt({min: 0})
        .withMessage("Stock quantity has to be at minimum 0 integer")
