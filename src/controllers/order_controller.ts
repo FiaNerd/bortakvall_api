@@ -23,25 +23,11 @@ export const index = async (req: Request, res: Response) => {
 
 // GET /orders/:orderId
 export const show = async (req: Request, res: Response) => {
+    
     const orderId = Number(req.params.orderId)
 
     try {
 
-        const orderExist = await prisma.order.findUnique({
-            where: { 
-             id: orderId,
-             }
-         })
-    
-         if(!orderExist){
-            return res.status(400).send({ 
-                status: 'fail',
-                data: [{ 
-                    message: `Order with id '${orderId}' dosn't exists` }] 
-            });
-         }
-
- 
         const getSingleOrder  = await prisma.order.findUniqueOrThrow({
             where:{
                 id: orderId
@@ -52,10 +38,36 @@ export const show = async (req: Request, res: Response) => {
             },
         }) 
 
+        // const orderExist = await prisma.order.findUnique({
+        //     where: { 
+        //      id: orderId,
+        //      }
+        //  })
+    
+        if(!getSingleOrder){
+            return res.status(400).send({ 
+                status: 'fail',
+                data: [{ 
+                    message: `Order with id '${orderId}' dosn't exists` }] 
+            });
+        }
+
+ 
+        // const getSingleOrder  = await prisma.order.findUniqueOrThrow({
+        //     where:{
+        //         id: orderId
+        //     },
+        //     include: 
+        //         {
+        //         items: true,
+        //     },
+        // }) 
+
         res.status(200).send({
             status: "success",
             data: getSingleOrder,
         })
+
     } catch (err) {
         res.status(400).send({
             status: "fail",
@@ -92,7 +104,7 @@ export const store = async (req: Request, res: Response) => {
                 data: [{
                 message: `Order not found with order id: ${item.product_id}`
                 }]
-            });
+            })
             }
         }
 
@@ -108,12 +120,12 @@ export const store = async (req: Request, res: Response) => {
                 order_total: reqBody.order_total,
             items: {
                 create: reqBody.order_items.map((item: OrderItem) => ({
-                qty: item.qty,
-                item_price: item.item_price,
-                item_total: item.item_total,
+                    qty: item.qty,
+                    item_price: item.item_price,
+                    item_total: item.item_total,
             product: {
                 connect: {
-                id: item.product_id,
+                    id: item.product_id,
                 },
                },
             }),
@@ -123,19 +135,21 @@ export const store = async (req: Request, res: Response) => {
             include: {
                 items: true,
                 },
-            });
+            })
+
+            console.log("Request BODY", reqBody)
+            console.log("POST ORDERS", postOrders);
           
       res.status(201).send({
         status: "success",
         data: postOrders,
       });
     } catch (err) {
-        console.log(err);
       res.status(400).send({
         status: "fail",
         message: "Couldn't make a post to orders",
         error: err,
       })
     }
-  }
+}
   
