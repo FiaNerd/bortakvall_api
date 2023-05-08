@@ -9,6 +9,8 @@ const debug = Debug('prisma_bortakvall:order_controller')
 export const index = async (req: Request, res: Response) => {
     try{
         const getOrders = await prisma.order.findMany()
+
+        console.log("GET ORDERS", getOrders);
         res.status(200).send({
             status: "success",
             data: getOrders,
@@ -81,9 +83,9 @@ export const store = async (req: Request, res: Response) => {
 
         for (const item of reqBody.order_items) {
             const findProducts = await prisma.product.findMany();
-
+            
             const findProductById = findProducts.find(product => product.id === item.product_id);
-
+       
             if (!findProductById) {
             return res.status(404).send({
                 status: "fail",
@@ -91,43 +93,37 @@ export const store = async (req: Request, res: Response) => {
                 message: `Order not found with order id: ${item.product_id}`
                 }]
             })
-        }
-    }
+        }}
 
-    const postOrders = await prisma.order.create({
-        data: {
-            customer_first_name: reqBody.customer_first_name,
-            customer_last_name: reqBody.customer_last_name,
-            customer_address: reqBody.customer_address,
-            customer_postcode: reqBody.customer_postcode,
-            customer_city: reqBody.customer_city,
-            customer_email: reqBody.customer_email,
-            customer_phone: reqBody.customer_phone,
-            order_total: reqBody.order_total,
-        items: {
-            create: reqBody.order_items.map((item: OrderItem) => ({
+        const postOrders = await prisma.order.create({
+            data: {
+                customer_first_name: reqBody.customer_first_name,
+                customer_last_name: reqBody.customer_last_name,
+                customer_address: reqBody.customer_address,
+                customer_postcode: reqBody.customer_postcode,
+                customer_city: reqBody.customer_city,
+                customer_email: reqBody.customer_email,
+                customer_phone: reqBody.customer_phone,
+                order_total: reqBody.order_total,
+            items: {
+                create: reqBody.order_items.map((item: OrderItem) => ({
                 qty: item.qty,
                 item_price: item.item_price,
                 item_total: item.item_total,
             product: {
                 connect: {
-                    id: item.product_id,
+                id: item.product_id,
                 },
                },
             }),
-          ),
+            ),
         },
     },
-        include: {
-            items: {
-                 include: {
-                    product: true,
-                }
-            }
-        },
-    })
+            include: {
+                items: true,
+                },
+            })
 
-    
     res.status(201).send({
         status: "success",
         data: postOrders,

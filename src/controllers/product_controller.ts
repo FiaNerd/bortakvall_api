@@ -67,8 +67,10 @@ export const show = async (req: Request, res: Response) => {
 export const store = async (req: Request, res: Response) => {
     const reqBody = req.body
 
-    debug("Error thrown product %o: %o", req.body)
+    console.log("REQ BODY", reqBody);
 
+    debug("Error thrown product REQ BODY%o: %o", req.body, req)
+    
     const validationErrors = validationResult(req)
 
     if (!validationErrors.isEmpty()) {
@@ -77,6 +79,7 @@ export const store = async (req: Request, res: Response) => {
 			data: validationErrors.array(),
 		})
 	}
+
 
     try{
         const { name } = req.body
@@ -97,11 +100,13 @@ export const store = async (req: Request, res: Response) => {
                 name: reqBody.name,      
                 description: reqBody.description,    
                 price: reqBody.price,         
-                images: reqBody.images,         
+                images: reqBody.images,
                 stock_status: reqBody.stock_status,   
                 stock_quantity: reqBody.stock_quantity, 
             }
         })
+
+        console.log("Post Post Product", postProduct);
         
         debug("postProduct: %o", postProduct)
 
