@@ -8,7 +8,6 @@ export const regexLettersAndHyphans = (value: string) => {
     return true;
   };
 
-
   export const regexPhone = (value: string) => {
     const regexPhone = /^[0-9\+\(\)\-\s]+$/
     const regexPhoneContains = /^((\+46)|0)\d{7,14}$/

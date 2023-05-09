@@ -1,5 +1,4 @@
 import { body } from 'express-validator'
-import { validImages } from './image-validations'
 
 export const productValidationRules = [
 
@@ -31,15 +30,8 @@ export const productValidationRules = [
         .withMessage("Price has to be at minimum 1 integer")
         .bail(), 
 
-        // body('images')
-        // .isObject()
-        // .bail()
-        // .isString()
-        // .bail()
-        // .custom(validImages)
-        // .bail(),
 
-        body('images')
+    body('images')
         .custom((value) => {
           if (!value || typeof value !== 'object' || !('thumbnail' in value) || !('large' in value)) {
             throw new Error('Images must be an object with "thumbnail" and "large" properties');
@@ -47,13 +39,6 @@ export const productValidationRules = [
           return value;
         }),
 
-    // body('images')
-    //     .isObject()
-    //     .bail()
-    //     .isString()
-    //     .withMessage('Images must be a string')
-    //     .bail(),
-      
     body('stock_status')
        .trim()
        .isString()

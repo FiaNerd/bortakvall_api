@@ -7,10 +7,10 @@ const debug = Debug('prisma_bortakvall:order_controller')
 
 // GET /order
 export const index = async (req: Request, res: Response) => {
+    
     try{
         const getOrders = await prisma.order.findMany()
 
-        console.log("GET ORDERS", getOrders);
         res.status(200).send({
             status: "success",
             data: getOrders,
@@ -72,12 +72,12 @@ export const store = async (req: Request, res: Response) => {
 
     const validationErrors = validationResult(req)
 
-    if (!validationErrors.isEmpty()) {
-		return res.status(400).send({
-			status: "fail",
-			data: validationErrors.array(),
-		})
-	}  
+        if (!validationErrors.isEmpty()) {
+            return res.status(400).send({
+                status: "fail",
+                data: validationErrors.array(),
+            })
+        }  
 
     try {
 
@@ -123,8 +123,6 @@ export const store = async (req: Request, res: Response) => {
                 items: true,
                 },
             })
-
-            console.log("POST ORDERS", postOrders);
 
     res.status(201).send({
         status: "success",
