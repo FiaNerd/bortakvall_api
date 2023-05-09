@@ -39,12 +39,20 @@ export const productValidationRules = [
         // .custom(validImages)
         // .bail(),
 
-    body('images')
-        .isObject()
-        .bail()
-        .isString()
-        .withMessage('Images must be a string')
-        .bail(),
+        body('images')
+        .custom((value) => {
+          if (!value || typeof value !== 'object' || !('thumbnail' in value) || !('large' in value)) {
+            throw new Error('Images must be an object with "thumbnail" and "large" properties');
+          }
+          return value;
+        }),
+
+    // body('images')
+    //     .isObject()
+    //     .bail()
+    //     .isString()
+    //     .withMessage('Images must be a string')
+    //     .bail(),
       
     body('stock_status')
        .trim()

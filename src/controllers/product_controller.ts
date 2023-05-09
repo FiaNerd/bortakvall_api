@@ -67,8 +67,6 @@ export const show = async (req: Request, res: Response) => {
 export const store = async (req: Request, res: Response) => {
     const reqBody = req.body
 
-    console.log("REQ BODY", reqBody);
-
     debug("Error thrown product REQ BODY%o: %o", req.body, req)
     
     const validationErrors = validationResult(req)
@@ -79,7 +77,6 @@ export const store = async (req: Request, res: Response) => {
 			data: validationErrors.array(),
 		})
 	}
-
 
     try{
         const { name } = req.body
@@ -106,8 +103,6 @@ export const store = async (req: Request, res: Response) => {
             }
         })
 
-        console.log("Post Post Product", postProduct);
-        
         debug("postProduct: %o", postProduct)
 
               res.status(201).send({

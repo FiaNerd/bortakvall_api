@@ -124,6 +124,8 @@ export const store = async (req: Request, res: Response) => {
                 },
             })
 
+            console.log("POST ORDERS", postOrders);
+
     res.status(201).send({
         status: "success",
         data: postOrders,

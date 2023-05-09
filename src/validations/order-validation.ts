@@ -58,7 +58,6 @@ export const orderValidationRules = [
         .bail()
         .custom(regexPostalCode)
         .bail(),
-
     
     body('customer_city')
         .trim()
